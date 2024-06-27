@@ -1,0 +1,1 @@
+savedcmd_/home/ubuntu/learning_device_drivers/ldd.ko := ld -r -EL  -maarch64elf -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T scripts/module.lds -o /home/ubuntu/learning_device_drivers/ldd.ko /home/ubuntu/learning_device_drivers/ldd.o /home/ubuntu/learning_device_drivers/ldd.mod.o

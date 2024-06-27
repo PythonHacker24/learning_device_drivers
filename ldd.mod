@@ -1,1 +1,1 @@
-/home/ubuntu/ldd/ldd.o
+/home/ubuntu/learning_device_drivers/ldd.o

@@ -6,8 +6,8 @@ MODULE_LICENSE("GPL");					// * Important since it provides you access to other 
 MODULE_AUTHOR("Aditya Patil");				// Optional 
 MODULE_DESCRIPTION("My first linux kernel driver");	// Optional
 
-ssize_t	(*proc_write)(struct file *, const char __user *, size_t, loff_t *);
 
+// Detect writing in the proc file 
 static ssize_t driver_proc_write(struct file* file_pointer, const char __user *user_buffer, size_t count, loff_t* offset) {
 	printk("Write Operation Detected\n");
 
@@ -34,19 +34,23 @@ static ssize_t driver_proc_write(struct file* file_pointer, const char __user *u
 	return count;
 }
 
+// Detect reading in the proc file 
 static ssize_t driver_proc_read(struct file* file_pointer, char *user_space_buffer, size_t count, loff_t* offset) {
 	printk("Read Operation Detected\n");
 	return 0;
 }
 
+// Create a directory enrty in proc 
 static struct proc_dir_entry *driver_proc_create;
 
+// proc operations in the driver 
 struct proc_ops driver_proc_ops = {
 	.proc_read = driver_proc_read,
 	.proc_write = driver_proc_write,
 };
 
-static int driver_init(void) {
+// Init Driver function
+static int __init driver_init(void) {
 	printk("Started Driver Initialization\n");
 
 	// driver_proc_create is a pointer by defination
@@ -64,7 +68,8 @@ static int driver_init(void) {
 	return 0;
 }
 
-static void driver_exit(void) {
+// Exit Driver function
+static void __exit driver_exit(void) {
 	printk("Driver Exit function execution has been started\n");
 
 	proc_remove(driver_proc_create);
