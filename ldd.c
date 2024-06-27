@@ -6,9 +6,23 @@ MODULE_LICENSE("GPL");					// * Important since it provides you access to other 
 MODULE_AUTHOR("Aditya Patil");				// Optional 
 MODULE_DESCRIPTION("My first linux kernel driver");	// Optional
 
-static struct proc_dir_entry *driver_proc_create;
-struct proc_ops driver_proc_ops = {
+ssize_t	(*proc_write)(struct file *, const char __user *, size_t, loff_t *);
 
+static ssize_t driver_proc_write(struct file* file_pointer, const char *user_space_buffer, size_t count, loff_t* offset) {
+	printk("Write Operation Detected\n");
+	return 0;
+}
+
+static ssize_t driver_proc_read(struct file* file_pointer, char *user_space_buffer, size_t count, loff_t* offset) {
+	printk("Read Operation Detected\n");
+	return 0;
+}
+
+static struct proc_dir_entry *driver_proc_create;
+
+struct proc_ops driver_proc_ops = {
+	.proc_read = driver_proc_read,
+	.proc_write = driver_proc_write,
 };
 
 static int driver_init(void) {
