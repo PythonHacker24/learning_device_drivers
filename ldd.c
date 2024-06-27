@@ -8,9 +8,30 @@ MODULE_DESCRIPTION("My first linux kernel driver");	// Optional
 
 ssize_t	(*proc_write)(struct file *, const char __user *, size_t, loff_t *);
 
-static ssize_t driver_proc_write(struct file* file_pointer, const char *user_space_buffer, size_t count, loff_t* offset) {
+static ssize_t driver_proc_write(struct file* file_pointer, const char __user *user_buffer, size_t count, loff_t* offset) {
 	printk("Write Operation Detected\n");
-	return 0;
+
+	char* kernel_buffer;
+
+	kernel_buffer = kmalloc(count + 1, GFP_KERNEL);
+
+	if (!kernel_buffer) {
+		printk("Memory allocation for character buffer failed!");
+		return -ENOMEM;
+	}
+
+	if (copy_from_user(kernel_buffer, user_buffer, count)) {
+		kfree(kernel_buffer);
+		return -EFAULT;
+	}
+
+	kernel_buffer[count] = '\0';
+
+	printk(KERN_INFO "Content: %s\n", kernel_buffer);
+
+	kfree(kernel_buffer);
+
+	return count;
 }
 
 static ssize_t driver_proc_read(struct file* file_pointer, char *user_space_buffer, size_t count, loff_t* offset) {
