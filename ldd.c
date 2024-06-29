@@ -1,11 +1,3 @@
-// #include <linux/init.h>
-// #include <linux/module.h>
-// #include <linux/proc_fs.h>
-
-// MODULE_LICENSE("GPL");					// * Important since it provides you access to other drivers with different licenses * 
-// MODULE_AUTHOR("Aditya Patil");				// Optional 
-// MODULE_DESCRIPTION("My first linux kernel driver");	// Optional
-
 #include "ldd.h"
 
 // Detect writing in the proc file 
@@ -35,9 +27,10 @@ static ssize_t driver_proc_write(struct file* file_pointer, const char __user *u
 	return count;
 }
 
-// Detect reading in the proc file 
+// Detect reading in the proc file and respond with an answer 
 static ssize_t driver_proc_read(struct file* file_pointer, char *user_space_buffer, size_t count, loff_t* offset) {
 	printk("Read Operation Detected\n");
+
 	char output_buffer[] = "ACK\n"; 
 	size_t length = strlen(output_buffer); 
 	int result; 

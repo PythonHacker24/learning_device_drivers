@@ -1,1 +1,0 @@
-savedcmd_/home/ubuntu/learning_device_drivers/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/ubuntu/learning_device_drivers/Module.symvers -T /home/ubuntu/learning_device_drivers/modules.order -i Module.symvers -e 
