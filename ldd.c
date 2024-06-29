@@ -38,7 +38,18 @@ static ssize_t driver_proc_write(struct file* file_pointer, const char __user *u
 // Detect reading in the proc file 
 static ssize_t driver_proc_read(struct file* file_pointer, char *user_space_buffer, size_t count, loff_t* offset) {
 	printk("Read Operation Detected\n");
-	return 0;
+	char output_buffer[] = "ACK\n"; 
+	size_t length = strlen(output_buffer); 
+	int result; 
+
+	if (*offset >= length) {
+		return 0;
+	}
+
+	result = copy_to_user(user_space_buffer, output_buffer, length);
+	*offset += length; 
+
+	return length;
 }
 
 // Create a directory enrty in proc 
