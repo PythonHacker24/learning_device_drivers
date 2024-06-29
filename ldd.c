@@ -1,7 +1,7 @@
 #include "ldd.h"
 
 // Detect writing in the proc file 
-static ssize_t driver_proc_write(struct file* file_pointer, const char __user *user_buffer, size_t count, loff_t* offset) {
+static ssize_t driver_proc_write(struct file* file_pointer, const char __user *user_buffer, size_t count, loff_t *offset) {
 	printk("Write Operation Detected\n");
 
 	char* kernel_buffer;
@@ -28,7 +28,7 @@ static ssize_t driver_proc_write(struct file* file_pointer, const char __user *u
 }
 
 // Detect reading in the proc file and respond with an answer 
-static ssize_t driver_proc_read(struct file* file_pointer, char *user_space_buffer, size_t count, loff_t* offset) {
+static ssize_t driver_proc_read(struct file* file_pointer, char *user_space_buffer, size_t count, loff_t *offset) {
 	printk("Read Operation Detected\n");
 
 	char output_buffer[] = "ACK\n"; 
